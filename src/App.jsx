@@ -4,7 +4,7 @@ import KpiCard from "./components/KpiCard.jsx";
 import RevenueChart from "./components/RevenueChart.jsx";
 import { buildEntries, summarize } from "./lib/ledger.js";
 import { formatCount, formatEuro, formatTime } from "./lib/format.js";
-import { supabase } from "./lib/supabase.js";
+import { fetchSnapshots } from "./lib/snapshots.js";
 
 const REFRESH_MS = 60_000;
 
@@ -12,23 +12,19 @@ export default function App() {
   const [state, setState] = useState({ status: "loading", snapshots: [], updatedAt: null });
 
   useEffect(() => {
-    if (!supabase) {
-      setState({ status: "error", snapshots: [], updatedAt: null });
-      return undefined;
-    }
-
     let cancelled = false;
 
     async function load() {
-      const { data, error } = await supabase
-        .from("donation_snapshots")
-        .select("amount_cents, participant_count, checked_at")
-        .order("checked_at", { ascending: true })
-        .limit(5000);
+      let data;
+      try {
+        data = await fetchSnapshots();
+      } catch {
+        data = null;
+      }
 
       if (cancelled) return;
 
-      if (error || !Array.isArray(data)) {
+      if (!data) {
         setState((previous) => ({ ...previous, status: "error" }));
         return;
       }

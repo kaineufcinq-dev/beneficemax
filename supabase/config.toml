@@ -1,3 +1,7 @@
 [functions.donation-tracker]
 verify_jwt = false
 entrypoint = "./functions/donation-tracker/index.ts"
+
+[functions.donation-snapshots]
+verify_jwt = false
+entrypoint = "./functions/donation-snapshots/index.ts"

@@ -4,6 +4,10 @@
     "donation-tracker": {
       "hasChanged": false,
       "hash": "3a605e027fe287d9e8fd4e8dab9ad8402fda067e6b092ca8663a8d2a38cfaa05"
+    },
+    "donation-snapshots": {
+      "hasChanged": false,
+      "hash": "12ba235dba893482e02b0f12ec88d3c6bb322afe3bca0c3c13da56c5255fa936"
     }
   }
 }
